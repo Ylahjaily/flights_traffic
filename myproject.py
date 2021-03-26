@@ -105,6 +105,54 @@ def airports():
 
     return render_template('airports.html', tables = [df.to_html()])
 
+@app.route("/airports/dst")
+def airports_dst():
+    sql = "SELECT * FROM Airports"
+    cursor.execute(sql)
+    data = cursor.fetchall()
+
+    columns = [
+    "faa",
+    "name",
+    "lat",
+    "lon",
+    "alt",
+    "tz",
+    "dst",
+    "tzone"
+    ]
+
+
+    df = pd.DataFrame(data, columns = columns)
+    is_airport_with_no_dst = df['dst'] == 'N'
+    df[is_airport_with_no_dst]
+
+    return render_template('airports.html', tables = [df.to_html()])
+
+@app.route("/airports/tzone")
+def airports_tzone():
+    sql = "SELECT * FROM Airports"
+    cursor.execute(sql)
+    data = cursor.fetchall()
+
+    columns = [
+    "faa",
+    "name",
+    "lat",
+    "lon",
+    "alt",
+    "tz",
+    "dst",
+    "tzone"
+    ]
+
+
+    df = pd.DataFrame(data, columns = columns)
+    is_airport_with_tzone = df['tzone'] == '\\N'
+    df[is_airport_with_tzone] 
+  
+    return render_template('airports.html', tables = [df.to_html()])
+
 @app.route("/airlines")
 def airlines():
     sql = "SELECT * FROM Airlines"
